@@ -11,11 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.calculaflex.R
-import br.com.calculaflex.data.remote.datasource.UserRemoteFakeDataSourceImpl
 import br.com.calculaflex.data.remote.datasource.UserRemoteFirebaseDataSourceImpl
 import br.com.calculaflex.data.repository.UserRepositoryImpl
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.usecases.LoginUseCase
+import br.com.calculaflex.domain.usecases.ResetPasswordUseCase
 import br.com.calculaflex.presentation.base.BaseFragment
 import br.com.calculaflex.presentation.base.auth.NAVIGATION_KEY
 import com.google.firebase.auth.FirebaseAuth
@@ -39,12 +39,20 @@ class LoginFragment : BaseFragment() {
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
             this,
-            LoginViewModelFactory(LoginUseCase(UserRepositoryImpl(
-                UserRemoteFirebaseDataSourceImpl(FirebaseAuth.getInstance())
-            )))
+            LoginViewModelFactory(
+                LoginUseCase(
+                    UserRepositoryImpl(
+                        UserRemoteFirebaseDataSourceImpl(FirebaseAuth.getInstance())
+                    )
+                ),
+                ResetPasswordUseCase(
+                    UserRepositoryImpl(
+                        UserRemoteFirebaseDataSourceImpl(FirebaseAuth.getInstance())
+                    )
+                )
+            )
         )[LoginViewModel::class.java]
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +81,11 @@ class LoginFragment : BaseFragment() {
         }
 
         tvResetPassword.setOnClickListener {
-
+            if(etEmailLogin.text.toString().isEmpty()) {
+                showMessage("Informe o e-mail que deseja alterar a senha")
+            } else {
+                loginViewModel.resetPassword(etEmailLogin.text.toString())
+            }
         }
 
         tvNewAccount.setOnClickListener {
@@ -89,6 +101,18 @@ class LoginFragment : BaseFragment() {
                 is RequestState.Loading -> showLoading("Realizando a autenticação")
             }
         })
+
+        loginViewModel.resetPasswordState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is RequestState.Success -> {
+                    hideLoading()
+                    showMessage(it.data)
+                }
+                is RequestState.Error -> showError(it.throwable)
+                is RequestState.Loading -> showLoading("Reenviando o e-mail para alteração")
+            }
+        })
+
     }
 
     private fun showSuccess() {

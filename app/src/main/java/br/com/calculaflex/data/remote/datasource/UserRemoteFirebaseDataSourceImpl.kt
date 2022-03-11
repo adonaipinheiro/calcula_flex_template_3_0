@@ -35,4 +35,14 @@ class UserRemoteFirebaseDataSourceImpl(
             RequestState.Error(excpetion)
         }
     }
+
+    override suspend fun resetPassword(email: String): RequestState<String> {
+        return try{
+            firebaseAuth.sendPasswordResetEmail(email).await()
+            RequestState.Success("Verifique sua caixa de e-mail")
+        } catch (e: java.lang.Exception) {
+            RequestState.Error(e)
+        }
+    }
+
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import br.com.calculaflex.R
-import br.com.calculaflex.data.remote.datasource.UserRemoteFakeDataSourceImpl
 import br.com.calculaflex.data.remote.datasource.UserRemoteFirebaseDataSourceImpl
 import br.com.calculaflex.data.repository.UserRepositoryImpl
 import br.com.calculaflex.domain.entity.RequestState
