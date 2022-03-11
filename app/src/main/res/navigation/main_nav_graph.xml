@@ -19,6 +19,13 @@
         tools:layout="@layout/fragment_better_fuel"
         android:id="@+id/betterFuelFragment"
         android:name="br.com.calculaflex.presentation.betterfuel.BetterFuelFragment"
-        android:label="BetterFuelFragment" />
+        android:label="BetterFuelFragment" >
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="https://www.calculaflex.com.br/betterfuel?id={id}" />
+
+        <argument android:name="id" app:argType="string"/>
+
+    </fragment>
     <include app:graph="@navigation/login_graph" />
 </navigation>

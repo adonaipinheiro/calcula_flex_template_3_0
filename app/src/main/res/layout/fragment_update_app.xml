@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerUpdateApp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/ivUpdateApp"
+        android:layout_width="192dp"
+        android:layout_height="192dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/car_app_update" />
+
+    <Button
+        android:id="@+id/btUpdateApp"
+        style="@style/button"
+        android:text="Atualizar aplicativo" />
+
+    <TextView
+        android:id="@+id/btUpdateLater"
+        style="@style/link"
+        android:text="Atualizar depois"
+        android:layout_marginTop="32dp" />
+
+</LinearLayout>

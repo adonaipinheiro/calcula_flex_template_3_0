@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.calculaflex.domain.usecases.GetUserLoggedUseCase
 
-class BaseViewModelFactory(
+class BaseAuthViewModelFactory(
     private val getUserLoggedUseCase: GetUserLoggedUseCase
 ): ViewModelProvider.Factory {
 

@@ -17,14 +17,26 @@ class UserRemoteFirebaseDataSourceImpl(
 ) : UserRemoteDataSource {
 
     override suspend fun getUserLogged(): RequestState<User> {
-        FirebaseAuth.getInstance().currentUser?.reload()
+        firebaseAuth.currentUser?.reload()
         val firebaseUser = firebaseAuth.currentUser
         return if (firebaseUser == null) {
             RequestState.Error(Exception("Usuário deslogado"))
         } else {
-            RequestState.Success(User(firebaseUser.displayName ?: "Não identificado"))
+
+            val user = firebaseFirestore.collection("users")
+                .document(firebaseUser.uid).get().await().toObject(User::class.java)
+
+            user?.id = firebaseUser.uid
+
+            if(user == null) {
+                RequestState.Error(java.lang.Exception("Usuário não encontrado"))
+            } else {
+                RequestState.Success(user)
+            }
+
         }
     }
+
 
     override suspend fun doLogin(userLogin: UserLogin): RequestState<User> {
         return try{
