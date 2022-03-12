@@ -21,8 +21,8 @@ import br.com.calculaflex.presentation.base.auth.BaseAuthFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class HomeFragment : BaseAuthFragment() {
 
     override val layout = R.layout.fragment_home
@@ -30,26 +30,7 @@ class HomeFragment : BaseAuthFragment() {
     private lateinit var tvHomeHelloUser: TextView
     private lateinit var rvHomeDashboard: RecyclerView
 
-    private val homeViewModel: HomeViewModel by lazy {
-        ViewModelProvider(
-            this,
-            HomeViewModelFactory(
-                GetDashboardMenuUseCase(
-                    AppRepositoryImpl(
-                        AppRemoteFirebaseDataSourceImpl()
-                    )
-                ),
-                GetUserLoggedUseCase(
-                    UserRepositoryImpl(
-                        UserRemoteFirebaseDataSourceImpl(
-                            FirebaseAuth.getInstance(),
-                            FirebaseFirestore.getInstance()
-                        )
-                    )
-                )
-            )
-        )[HomeViewModel::class.java]
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -126,9 +107,10 @@ class HomeFragment : BaseAuthFragment() {
                 }
 
                 else -> {
-                    startDeeplink(item.action.deeplink)
+//                    item.action.deeplink.let {
+//                        startDeeplink(item.action.deeplink)
+//                    }
                 }
-
             }
         }
     }

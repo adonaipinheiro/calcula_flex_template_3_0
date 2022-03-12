@@ -23,8 +23,8 @@ import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.usecases.GetMinAppVersionUseCase
 import br.com.calculaflex.presentation.base.auth.NAVIGATION_KEY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment() {
 
     abstract val layout: Int
@@ -32,18 +32,7 @@ abstract class BaseFragment : Fragment() {
     private lateinit var loadingView: View
 
 
-    private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProvider(
-            this,
-            BaseViewModelFactory(
-                GetMinAppVersionUseCase(
-                    AppRepositoryImpl(
-                        AppRemoteFirebaseDataSourceImpl()
-                    )
-                )
-            )
-        ).get(BaseViewModel::class.java)
-    }
+    private val baseViewModel: BaseViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

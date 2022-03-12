@@ -20,27 +20,13 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class SignUpFragment : BaseFragment() {
 
     override val layout = R.layout.fragment_sign_up
 
-    private val signUpViewModel: SignUpViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SignUpViewModelFactory(
-                CreateUserUseCase(
-                    UserRepositoryImpl(
-                        UserRemoteFirebaseDataSourceImpl(
-                            FirebaseAuth.getInstance(),
-                            FirebaseFirestore.getInstance()
-                        )
-                    )
-                )
-            )
-        ).get(SignUpViewModel::class.java)
-    }
+    private val signUpViewModel: SignUpViewModel by viewModel()
 
     private lateinit var etUserNameSignUp: EditText
     private lateinit var etEmailSignUp: EditText

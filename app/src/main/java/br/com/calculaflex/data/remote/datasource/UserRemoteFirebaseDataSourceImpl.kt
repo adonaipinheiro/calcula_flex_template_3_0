@@ -10,7 +10,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 
-@ExperimentalCoroutinesApi
 class UserRemoteFirebaseDataSourceImpl(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore

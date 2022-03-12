@@ -21,8 +21,8 @@ import br.com.calculaflex.presentation.base.auth.NAVIGATION_KEY
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class LoginFragment : BaseFragment() {
 
     override val layout = R.layout.fragment_login
@@ -37,30 +37,7 @@ class LoginFragment : BaseFragment() {
     private lateinit var etEmailLogin: EditText
     private lateinit var etPasswordLogin: EditText
 
-    private val loginViewModel: LoginViewModel by lazy {
-        ViewModelProvider(
-            this,
-            LoginViewModelFactory(
-                LoginUseCase(
-                    UserRepositoryImpl(
-                        UserRemoteFirebaseDataSourceImpl(
-                            FirebaseAuth.getInstance(),
-                            FirebaseFirestore.getInstance()
-                        )
-                    )
-                ),
-                ResetPasswordUseCase(
-                    UserRepositoryImpl(
-                        UserRemoteFirebaseDataSourceImpl(
-                            FirebaseAuth.getInstance(),
-                            FirebaseFirestore.getInstance()
-                        )
-                    )
-                )
-            )
-        )[LoginViewModel::class.java]
-    }
-
+    private val loginViewModel: LoginViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

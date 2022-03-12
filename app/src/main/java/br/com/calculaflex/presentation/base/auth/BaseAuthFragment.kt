@@ -17,23 +17,12 @@ import br.com.calculaflex.presentation.base.BaseFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
 const val NAVIGATION_KEY = "NAV_KEY"
-@ExperimentalCoroutinesApi
 abstract class BaseAuthFragment : BaseFragment() {
 
-    private val baseAuthViewModel: BaseAuthViewModel by lazy {
-        ViewModelProvider(
-            this,
-            BaseAuthViewModelFactory(GetUserLoggedUseCase(UserRepositoryImpl(
-                UserRemoteFirebaseDataSourceImpl(
-                    FirebaseAuth.getInstance(),
-                    FirebaseFirestore.getInstance()
-                )
-            )))
-        )[BaseAuthViewModel::class.java]
-    }
-
+    private val baseAuthViewModel: BaseAuthViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

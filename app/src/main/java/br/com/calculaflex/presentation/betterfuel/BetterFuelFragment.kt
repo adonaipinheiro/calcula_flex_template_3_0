@@ -6,28 +6,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import br.com.calculaflex.R
-import br.com.calculaflex.data.remote.datasource.CarRemoteDataSourceImpl
-import br.com.calculaflex.data.remote.datasource.UserRemoteFirebaseDataSourceImpl
-import br.com.calculaflex.data.repository.CarRepositoryImpl
-import br.com.calculaflex.data.repository.UserRepositoryImpl
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.entity.enums.FuelType
-import br.com.calculaflex.domain.usecases.CalculateBetterFuelUseCase
-import br.com.calculaflex.domain.usecases.GetCarUseCase
-import br.com.calculaflex.domain.usecases.GetUserLoggedUseCase
-import br.com.calculaflex.domain.usecases.SaveCarUseCase
-import br.com.calculaflex.domain.utils.FuelCalculator
 import br.com.calculaflex.extensions.getDouble
 import br.com.calculaflex.extensions.getString
 import br.com.calculaflex.presentation.base.auth.BaseAuthFragment
 import br.com.calculaflex.presentation.watchers.DecimalTextWatcher
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class BetterFuelFragment : BaseAuthFragment() {
 
     override val layout = R.layout.fragment_better_fuel
@@ -40,39 +27,7 @@ class BetterFuelFragment : BaseAuthFragment() {
     private lateinit var btCalculate: Button
     private lateinit var btClear: TextView
 
-    private val betterFuelViewModel: BetterFuelViewModel by lazy {
-        ViewModelProvider(
-            this,
-            BetterFuelViewModelFactory(
-                SaveCarUseCase(
-                    GetUserLoggedUseCase(
-                        UserRepositoryImpl(
-                            UserRemoteFirebaseDataSourceImpl(
-                                FirebaseAuth.getInstance(),
-                                FirebaseFirestore.getInstance()
-                            )
-                        )
-                    ),
-                    CarRepositoryImpl(
-                        CarRemoteDataSourceImpl(
-                            FirebaseFirestore.getInstance()
-                        )
-                    )
-                ),
-                CalculateBetterFuelUseCase(
-                    FuelCalculator()
-                ),
-                GetCarUseCase(
-                    CarRepositoryImpl(
-                        CarRemoteDataSourceImpl(
-                            FirebaseFirestore.getInstance()
-                        )
-                    )
-                )
-            )
-        )[BetterFuelViewModel::class.java]
-    }
-
+    private val betterFuelViewModel: BetterFuelViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

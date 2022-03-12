@@ -7,7 +7,6 @@ import br.com.calculaflex.extensions.fromRemoteConfig
 import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class AppRemoteFirebaseDataSourceImpl : AppRemoteDataSource {
 
     override suspend fun getMinVersionApp(): RequestState<Int> {
