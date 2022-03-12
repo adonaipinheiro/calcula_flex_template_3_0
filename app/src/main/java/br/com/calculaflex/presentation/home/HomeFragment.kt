@@ -1,11 +1,15 @@
 package br.com.calculaflex.presentation.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import br.com.calculaflex.R
 import br.com.calculaflex.data.remote.datasource.AppRemoteFirebaseDataSourceImpl
@@ -18,6 +22,7 @@ import br.com.calculaflex.domain.usecases.GetDashboardMenuUseCase
 import br.com.calculaflex.domain.usecases.GetUserLoggedUseCase
 import br.com.calculaflex.extensions.startDeeplink
 import br.com.calculaflex.presentation.base.auth.BaseAuthFragment
+import br.com.calculaflex.presentation.base.auth.NAVIGATION_KEY
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -67,7 +72,7 @@ class HomeFragment : BaseAuthFragment() {
         })
 
         homeViewModel.headerState.observe(viewLifecycleOwner, Observer {
-            when(it) {
+            when (it) {
                 is RequestState.Loading -> {
                     tvHomeHelloUser.text = "Carregando o usuario"
                 }
@@ -76,6 +81,21 @@ class HomeFragment : BaseAuthFragment() {
                     val (title, userName) = it.data
                     tvHomeHelloUser.text = String.format(title, userName)
                     hideLoading()
+                }
+
+                is RequestState.Error -> {
+                    hideLoading()
+                    showMessage(it.throwable.message)
+                }
+            }
+        })
+
+        homeViewModel.signOutState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is RequestState.Success -> {
+                    NavHostFragment.findNavController(this).navigate(
+                        R.id.login_graph
+                    )
                 }
 
                 is RequestState.Error -> {
@@ -99,7 +119,18 @@ class HomeFragment : BaseAuthFragment() {
         if (item.onDisabledListener == null) {
             when (item.feature) {
                 "SIGN_OUT" -> {
-                    //chamar o metodo de logout
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Calcula Flex")
+                    builder.setMessage("Deseja sair do aplicativo?")
+                    builder.setPositiveButton("Sim") { dialog, which ->
+                        homeViewModel.signOut()
+                    }
+
+                    builder.setNegativeButton("Não") { dialog, which ->
+
+                    }
+
+                    builder.show()
                 }
 
                 "ETHANOL_OR_GASOLINE" -> {

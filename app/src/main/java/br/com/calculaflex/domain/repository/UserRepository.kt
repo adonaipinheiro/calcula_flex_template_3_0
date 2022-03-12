@@ -14,4 +14,6 @@ interface UserRepository {
     suspend fun resetPassword(email: String): RequestState<String>
 
     suspend fun create(newUser: NewUser): RequestState<User>
+
+    suspend fun signOut(): RequestState<String>
 }

@@ -27,4 +27,8 @@ data class UserRepositoryImpl(
         return userRemoteDataSource.create(newUser)
     }
 
+    override suspend fun signOut(): RequestState<String> {
+        return userRemoteDataSource.signOut()
+    }
+
 }

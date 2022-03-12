@@ -10,13 +10,15 @@ import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.entity.User
 import br.com.calculaflex.domain.usecases.GetDashboardMenuUseCase
 import br.com.calculaflex.domain.usecases.GetUserLoggedUseCase
+import br.com.calculaflex.domain.usecases.SignOutUseCase
 import br.com.calculaflex.presentation.utils.featuretoggle.FeatureToggleHelper
 import br.com.calculaflex.presentation.utils.featuretoggle.FeatureToggleListener
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getDashboardMenuUseCase: GetDashboardMenuUseCase,
-    private val getUserLoggedUseCase: GetUserLoggedUseCase
+    private val getUserLoggedUseCase: GetUserLoggedUseCase,
+    private val signOutUseCase: SignOutUseCase
 ) : ViewModel() {
 
     var dashboardItemsState = MutableLiveData<RequestState<List<DashboardItem>>>()
@@ -24,6 +26,18 @@ class HomeViewModel(
     var headerState = MutableLiveData<RequestState<Pair<String, String>>>()
     var userLogged: User? = null
 
+    var signOutState =  MutableLiveData<RequestState<String>>()
+
+    fun signOut() {
+        viewModelScope.launch {
+            val response = signOutUseCase.signOUt()
+
+            when(response) {
+                is RequestState.Success -> signOutState.value = response
+                else -> userLogged = null
+            }
+        }
+    }
 
     fun getDashboardMenu() {
         viewModelScope.launch {

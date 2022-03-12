@@ -83,6 +83,15 @@ class UserRemoteFirebaseDataSourceImpl(
         }
     }
 
+    override suspend fun signOut(): RequestState<String> {
+        return try {
+            firebaseAuth.signOut()
+            firebaseAuth.currentUser?.reload()
+            RequestState.Success("")
+        } catch (e: java.lang.Exception) {
+            RequestState.Error(e)
+        }
+    }
 
 
 }

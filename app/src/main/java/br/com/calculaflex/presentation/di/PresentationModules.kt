@@ -13,7 +13,7 @@ val presentationModules = module {
     viewModel { BaseAuthViewModel(getUserLoggedUseCase = get()) }
     viewModel { BaseViewModel(getMinAppVersionUseCase = get()) }
     viewModel { BetterFuelViewModel(saveCarUseCase = get(), calculateBetterFuelUseCase = get(), getCarUseCase = get()) }
-    viewModel { HomeViewModel(getDashboardMenuUseCase = get(), getUserLoggedUseCase = get()) }
+    viewModel { HomeViewModel(getDashboardMenuUseCase = get(), getUserLoggedUseCase = get(), signOutUseCase = get()) }
     viewModel { LoginViewModel(loginUseCase = get(), resetPasswordUseCase = get()) }
     viewModel { SignUpViewModel(createUserUseCase = get()) }
 }

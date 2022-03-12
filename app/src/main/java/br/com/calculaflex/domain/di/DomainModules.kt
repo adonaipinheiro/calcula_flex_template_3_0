@@ -17,5 +17,6 @@ val domainModules = module {
     factory { LoginUseCase(userRepository = get()) }
     factory { ResetPasswordUseCase(userRepository = get()) }
     factory { SaveCarUseCase(getUserLoggedUseCase = get(), carRepository = get()) }
+    factory { SignOutUseCase(userRepository = get()) }
 
 }
