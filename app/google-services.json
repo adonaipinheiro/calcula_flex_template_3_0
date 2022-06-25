@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951721409842",
+    "project_id": "calcula-flex-1ac60",
+    "storage_bucket": "calcula-flex-1ac60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951721409842:android:00a3c233dab0eabaf96b2b",
+        "android_client_info": {
+          "package_name": "br.com.calculaflex.adonaipinheiro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951721409842-dpfn2qfshnqp5nama06v5n7o8k3i2ou3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo2Jazh59kYj-Msj_nNdieHRoZrVFYdgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951721409842-dpfn2qfshnqp5nama06v5n7o8k3i2ou3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
